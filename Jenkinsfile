@@ -19,7 +19,7 @@ void NotifySlack(String release = null, boolean success = false, String messageI
 	//slackSend channel: "#botlog", message: message,  color: color
 
 	JSONArray attachments = new JSONArray();
-	JSONObject attachment = new JSONObject({
+	JSONObject attachment = new JSONObject('{
 	   "text": "New comic book alert!",
 	   "attachments": [
 		   {
@@ -66,7 +66,7 @@ void NotifySlack(String release = null, boolean success = false, String messageI
 			   ]
 		   }
 	   ]
-   });
+   }');
 
 	//attachment.put('text','I find your lack of faith disturbing!');
 	//attachment.put('fallback','Hey, Vader seems to be mad at you.');
