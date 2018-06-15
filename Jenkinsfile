@@ -3,7 +3,7 @@
 void NotifySlack(String messageIn = null, String success = false) {
 
 	String color = '#ff0000'
-	String message = 'pipeline initialized for ${env.RELEASE}'
+	String message = 'pipeline initialized for {${env.RELEASE}}'
 
 	if(success) {
 		color = '#00ff00'
