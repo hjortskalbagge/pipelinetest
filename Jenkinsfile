@@ -53,10 +53,14 @@ pipeline {
                     userInput = input(
                         id: 'Proceed1',
                         message: 'staging ok?',
-                        ok: 'Yes'
-                        parameters: [
-                        	[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
-                        ])
+                        ok: 'Yes',
+                        parameters: [[
+							$class: 'BooleanParameterDefinition',
+							defaultValue: true,
+							description: '',
+							name: 'Please confirm you agree with this'
+						]]
+					)
                 } catch(err) { // input false
                     def user = err.getCauses()[0].getUser()
                     userInput = false
