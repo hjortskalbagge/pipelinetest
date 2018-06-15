@@ -34,14 +34,14 @@ def UserInput(currentBuild) {
 	return message
 }
 
-def UserInputStep(env) {
+void UserInputStep(envData) {
 	String message = UserInput(currentBuild)
 	boolean confirmed = false
 	if(indexOf('confirmed', message) > -1) {
 		confirmed = true
 	}
 
-	NotifySlack(env, confirmed, message)
+	NotifySlack(envData, confirmed, message)
 }
 
 pipeline {
