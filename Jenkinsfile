@@ -16,16 +16,6 @@ void NotifySlack(String release = null, String success = false, String messageIn
 	slackSend channel: "#botlog", message: message,  color: color
 }
 
-void UserInputStep() {
-	String message = UserInput(currentBuild)
-	boolean confirmed = false
-	if(indexOf('confirmed', message) > -1) {
-		confirmed = true
-	}
-
-	NotifySlack("${env.RELEASE}", confirmed, message)
-}
-
 def UserInput(currentBuild) {
 	String message = 'staging confirmed'
 	try {
@@ -44,6 +34,15 @@ def UserInput(currentBuild) {
 	return message
 }
 
+def UserInputStep(env) {
+	String message = UserInput(currentBuild)
+	boolean confirmed = false
+	if(indexOf('confirmed', message) > -1) {
+		confirmed = true
+	}
+
+	NotifySlack(env, confirmed, message)
+}
 
 pipeline {
     agent none
@@ -71,7 +70,7 @@ pipeline {
 
 		stage('confirm staging stability') {
 			steps {
-				UserInputStep()
+				UserInputStep("${env.RELEASE}")
 			}
 		}
 	}
