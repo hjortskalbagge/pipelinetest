@@ -61,13 +61,13 @@ pipeline {
 			}
 
 			steps {
-			    NotifySlack(${env.RELEASE})
+			    NotifySlack("${env.RELEASE}")
 			}
 		}
 
 		stage('confirm staging stability') {
 			steps {
-				NotifySlack(${env.RELEASE}, UserInput(currentBuild))
+				NotifySlack("${env.RELEASE}", UserInput(currentBuild))
 			}
 		}
 	}
