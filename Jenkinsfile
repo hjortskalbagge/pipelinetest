@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+import groovy.json.JsonOutput
+
 void NotifySlack(String release = null, boolean success = false, String messageIn = null) {
 
 	String color = '#ff0000'
