@@ -28,7 +28,7 @@ def UserInput(currentBuild) {
 		def user = err.getCauses()[0].getUser()
 		userInput = false
 		userName = "${user}".toLowerCase().replaceAll(' ','.')
-		message = "Aborted by: "+userName
+		message = "Aborted by: @"+userName
 		currentBuild.result = 'FAILURE'
 	}
 
