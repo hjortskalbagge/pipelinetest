@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
 
 @Library('./lib.groovy')_
-
 pipeline {
     agent none
 
@@ -34,7 +33,7 @@ pipeline {
 					ok: 'Yes'
 				)
 
-				NotifySlack 'staging confirmed'
+				// NotifySlack 'staging confirmed'
 			}
 		}
 	}
