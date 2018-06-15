@@ -60,7 +60,7 @@ pipeline {
 			agent { node { label 'master' } }
 			
 			environment {
-				RELEASE = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
+				RELEASE = "${env.GIT_BRANCH}-${env.GIT_COMMIT}"
 				PROJECT_NAME = 'some project'
 			}
 
