@@ -42,16 +42,10 @@ pipeline {
 
 		stage('confirm staging stability') {
 			steps {
-				input(
-					id: 'stage',
-					message: 'Proceed?',
-					ok: 'Yes'
-				)
-
 				String message = 'staging confirmed'
 				try {
                     userInput = input(
-                        id: 'Proceed1',
+                        id: 'staging',
                         message: 'staging ok?',
                         ok: 'Yes',
                         parameters: [[
