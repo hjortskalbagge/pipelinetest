@@ -28,7 +28,7 @@ def UserInput(currentBuild) {
 			//	defaultValue: true,
 			//	description: '',
 			//	name: 'Please confirm you agree with this'
-			]]
+			//]]
 		)
 	} catch(err) { // input false
 		def user = err.getCauses()[0].getUser()
