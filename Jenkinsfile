@@ -16,6 +16,30 @@ void NotifySlack(String messageIn = null, String success = false) {
 	slackSend channel: "#botlog", message: message,  color: color
 }
 
+def UserInput() {
+	String message = 'staging confirmed'
+	try {
+		userInput = input(
+			id: 'staging',
+			message: 'staging ok?',
+			ok: 'Yes',
+			parameters: [[
+				$class: 'BooleanParameterDefinition',
+				defaultValue: true,
+				description: '',
+				name: 'Please confirm you agree with this'
+			]]
+		)
+	} catch(err) { // input false
+		def user = err.getCauses()[0].getUser()
+		userInput = false
+		message = "Aborted by: [${user}]"
+	}
+
+	return message
+}
+
+
 pipeline {
     agent none
 
@@ -42,26 +66,7 @@ pipeline {
 
 		stage('confirm staging stability') {
 			steps {
-				String message = 'staging confirmed'
-				try {
-                    userInput = input(
-                        id: 'staging',
-                        message: 'staging ok?',
-                        ok: 'Yes',
-                        parameters: [[
-							$class: 'BooleanParameterDefinition',
-							defaultValue: true,
-							description: '',
-							name: 'Please confirm you agree with this'
-						]]
-					)
-                } catch(err) { // input false
-                    def user = err.getCauses()[0].getUser()
-                    userInput = false
-                    message = "Aborted by: [${user}]"
-                }
-
-				NotifySlack(message )
+				NotifySlack(UserInput())
 			}
 		}
 	}
