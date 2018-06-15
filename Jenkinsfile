@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+import groovy.json.JsonBuilder
+
 void NotifySlack(String release = null, boolean success = false, String messageIn = null) {
 
 	String color = '#ff0000'
@@ -13,7 +15,7 @@ void NotifySlack(String release = null, boolean success = false, String messageI
 		message = messageIn
 	}
 
-	def json = new groovy.json.JsonBuilder()
+	def json = new JsonBuilder()
     json {
 		text "New comic book alert!"
 		attachments ([
