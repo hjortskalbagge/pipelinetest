@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-@Library('./lib.groovy')_
+@Library('lib.groovy')_
 pipeline {
     agent none
 
