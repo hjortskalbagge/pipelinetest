@@ -1,5 +1,21 @@
 #!/usr/bin/env groovy
 
+def NotifySlack(messageIn, success) {
+
+	String color = '#ff0000'
+	String message = 'pipeline initialized for ${env.RELEASE}'
+
+	if(success == "ok") {
+	    color = '#00ff00'
+	}
+
+	if(messageIn) {
+		message = step
+	}
+
+	slackSend channel: "#botlog", message: message,  color: color
+}
+
 pipeline {
     agent none
 
@@ -11,7 +27,7 @@ pipeline {
     }
 
 	stages {
-		stage('Deploy') {
+		stage('stage') {
 			agent { node { label 'master' } }
 			
 			environment {
@@ -20,7 +36,19 @@ pipeline {
 			}
 
 			steps {
-			    slackSend channel: "#botlog", message: "started building ${env.RELEASE}",  color: "#0e660d"
+			    NotifySlack()
+			}
+		}
+
+		stage('confirm staging stability') {
+			steps {
+				input(
+					id: 'stage',
+					message: 'Proceed?',
+					ok: 'Yes'
+				)
+
+				NotifySlack('staging confirmed')
 			}
 		}
 	}
