@@ -61,7 +61,7 @@ pipeline {
 
 		stage('confirm staging stability') {
 			steps {
-				String message = UserInput(currentBuild)
+				String message = UserInput(currentBuild);
 				boolean continue = false
 				if(indexOf('confirmed', message) > -1) {
 					continue = true
