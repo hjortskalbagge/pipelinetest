@@ -61,13 +61,13 @@ pipeline {
 
 		stage('confirm staging stability') {
 			steps {
-				String message = UserInput(currentBuild);
-				boolean continue = false
+				String message = UserInput(currentBuild)
+				boolean confirmed = false
 				if(indexOf('confirmed', message) > -1) {
-					continue = true
+					confirmed = true
 				}
 
-				NotifySlack("${env.RELEASE}", continue, message)
+				NotifySlack("${env.RELEASE}", confirmed, message)
 			}
 		}
 	}
