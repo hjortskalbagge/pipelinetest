@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-void NotifySlack(String release = null, String success = false, String messageIn = null) {
+void NotifySlack(String release = null, boolean success = false, String messageIn = null) {
 
 	String color = '#ff0000'
 	String message = 'pipeline initialized for '+release
