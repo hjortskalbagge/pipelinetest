@@ -16,7 +16,7 @@ pipeline {
 			
 			environment {
 				RELEASE = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
-				PROJECT_NAME = 'obelisk-testing'
+				PROJECT_NAME = 'some project'
 			}
 
 			steps {
