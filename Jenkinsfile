@@ -36,7 +36,7 @@ pipeline {
 			}
 
 			steps {
-			    NotifySlack
+			    NotifySlack()
 			}
 		}
 
@@ -48,7 +48,7 @@ pipeline {
 					ok: 'Yes'
 				)
 
-				// NotifySlack 'staging confirmed'
+				// NotifySlack('staging confirmed')
 			}
 		}
 	}
