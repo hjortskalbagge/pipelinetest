@@ -1,39 +1,40 @@
 #!/usr/bin/env groovy
 
-void NotifySlack(String messageIn = null, String success = false) {
+void NotifySlack(String release = null, String messageIn = null, String success = false) {
 
 	String color = '#ff0000'
-	String message = 'pipeline initialized for {${env.RELEASE}}'
+	String message = 'pipeline initialized for '+release
 
 	if(success) {
 		color = '#00ff00'
 	}
 
 	if(messageIn) {
-		message = step
+		message = messageIn
 	}
 
 	slackSend channel: "#botlog", message: message,  color: color
 }
 
-def UserInput() {
+def UserInput(currentBuild) {
 	String message = 'staging confirmed'
 	try {
 		userInput = input(
 			id: 'staging',
 			message: 'staging ok?',
 			ok: 'Yes',
-			parameters: [[
-				$class: 'BooleanParameterDefinition',
-				defaultValue: true,
-				description: '',
-				name: 'Please confirm you agree with this'
+			//parameters: [[
+			//	$class: 'BooleanParameterDefinition',
+			//	defaultValue: true,
+			//	description: '',
+			//	name: 'Please confirm you agree with this'
 			]]
 		)
 	} catch(err) { // input false
 		def user = err.getCauses()[0].getUser()
 		userInput = false
 		message = "Aborted by: [${user}]"
+		currentBuild.result = 'FAILURE'
 	}
 
 	return message
@@ -60,13 +61,13 @@ pipeline {
 			}
 
 			steps {
-			    NotifySlack()
+			    NotifySlack(${env.RELEASE})
 			}
 		}
 
 		stage('confirm staging stability') {
 			steps {
-				NotifySlack(UserInput())
+				NotifySlack(${env.RELEASE}, UserInput(currentBuild))
 			}
 		}
 	}
