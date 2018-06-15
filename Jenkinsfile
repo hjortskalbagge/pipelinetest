@@ -1,11 +1,11 @@
 #!/usr/bin/env groovy
 
-void NotifySlack(String release = null, String messageIn = null, String success = false) {
+void NotifySlack(String release = null, String success = false, String messageIn = null) {
 
 	String color = '#ff0000'
 	String message = 'pipeline initialized for '+release
 
-	if(success) {
+	if(success == true) {
 		color = '#00ff00'
 	}
 
@@ -22,13 +22,7 @@ def UserInput(currentBuild) {
 		userInput = input(
 			id: 'staging',
 			message: 'staging ok?',
-			ok: 'Yes',
-			//parameters: [[
-			//	$class: 'BooleanParameterDefinition',
-			//	defaultValue: true,
-			//	description: '',
-			//	name: 'Please confirm you agree with this'
-			//]]
+			ok: 'Yes'
 		)
 	} catch(err) { // input false
 		def user = err.getCauses()[0].getUser()
@@ -61,13 +55,19 @@ pipeline {
 			}
 
 			steps {
-			    NotifySlack("${env.RELEASE}")
+			    NotifySlack("${env.RELEASE}", true)
 			}
 		}
 
 		stage('confirm staging stability') {
 			steps {
-				NotifySlack("${env.RELEASE}", UserInput(currentBuild))
+				String message = UserInput(currentBuild)
+				Boolean continue = false
+				if(indexOf('confirmed', message) > -1) {
+					continue = true
+				}
+
+				NotifySlack("${env.RELEASE}", continue, message)
 			}
 		}
 	}
