@@ -14,6 +14,12 @@ void NotifySlack(String release = null, boolean success = false, String messageI
 	}
 
 	def json = new groovy.json.JsonBuilder()
+	def result = json 1, 2, 3
+
+	assert result instanceof List
+	assert json.toString() == "[1,2,3]"
+
+	def json = new groovy.json.JsonBuilder()
 	def result = json {
                        text "New comic book alert!"
                        attachments ([
