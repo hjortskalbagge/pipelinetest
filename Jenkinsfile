@@ -34,15 +34,15 @@ def UserInput(currentBuild) {
 	return message
 }
 
-//void UserInputStep(envData) {
-//	String message = UserInput(currentBuild)
-//	boolean confirmed = false
-//	if(indexOf('confirmed', message) > -1) {
-//		confirmed = true
-//	}
-//
-//	NotifySlack(envData, confirmed, message)
-//}
+void UserInputStep(envData) {
+	String message = UserInput(currentBuild)
+	boolean confirmed = false
+	if(indexOf('confirmed', message) > -1) {
+		confirmed = true
+	}
+
+	NotifySlack(envData, confirmed, message)
+}
 
 pipeline {
     agent none
@@ -68,11 +68,11 @@ pipeline {
 			}
 		}
 
-		//stage('confirm staging stability') {
-		//	steps {
-		//		UserInputStep("${env.RELEASE}")
-		//	}
-		//}
+		stage('confirm staging stability') {
+			steps {
+				UserInputStep("${env.RELEASE}")
+			}
+		}
 	}
 
 }
