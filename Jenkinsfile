@@ -48,7 +48,22 @@ pipeline {
 					ok: 'Yes'
 				)
 
-				// NotifySlack('staging confirmed')
+				String message = 'staging confirmed'
+				try {
+                    userInput = input(
+                        id: 'Proceed1',
+                        message: 'staging ok?',
+                        ok: 'Yes'
+                        parameters: [
+                        	[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+                        ])
+                } catch(err) { // input false
+                    def user = err.getCauses()[0].getUser()
+                    userInput = false
+                    message = "Aborted by: [${user}]"
+                }
+
+				NotifySlack(message )
 			}
 		}
 	}
