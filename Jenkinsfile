@@ -37,7 +37,7 @@ def UserInput(currentBuild) {
 void UserInputStep(envData) {
 	String message = UserInput(currentBuild)
 	boolean confirmed = false
-	if(indexOf('confirmed', message) > -1) {
+	if(message.indexOf('confirmed') > -1) {
 		confirmed = true
 	}
 
