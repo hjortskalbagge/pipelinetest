@@ -76,6 +76,9 @@ pipeline {
 		}
 
 		stage('deploy live') {
+
+			agent { node { label 'master' } }
+
 			steps {
 				sh "echo 'OK'"
 			}
