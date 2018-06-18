@@ -27,13 +27,13 @@ pipeline {
 			}
 
 			steps {
-			    NotifySlack(true)
+			    slacknotifyer.NotifySlack(true)
 			}
 		}
 
 		stage('confirm staging stability') {
 			steps {
-				UserInputStep()
+				slacknotifyer.UserInputStep()
 			}
 		}
 
@@ -47,13 +47,13 @@ pipeline {
 
 			post {
 				success {
-					NotifySlack(true, 'deployment successful')
+					slacknotifyer.NotifySlack(true, 'deployment successful')
 				}
 				unstable {
-					NotifySlack(false, 'deployment unstable')
+					slacknotifyer.NotifySlack(false, 'deployment unstable')
 				}
 				failure {
-					NotifySlack(false, 'deployment failed')
+					slacknotifyer.NotifySlack(false, 'deployment failed')
 				}
 			}
 		}
