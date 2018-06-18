@@ -13,7 +13,7 @@ void NotifySlack(String release = null, boolean success = false, String messageI
 		message = messageIn
 	}
 
-	slackSend channel: "#botlog", message: jobName  + ': ' + message,  color: color
+	slackSend channel: "#botlog", message: "${env.JOB_NAME}"  + ': ' + message,  color: color
 }
 
 def UserInput(currentBuild) {
