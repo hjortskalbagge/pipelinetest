@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 
+library 'NotifySlack'
 
 def UserInput(currentBuild) {
 	String message = 'staging confirmed'
