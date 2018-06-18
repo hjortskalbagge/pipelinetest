@@ -3,7 +3,7 @@
 void NotifySlack(String release = null, boolean success = false, String messageIn = null) {
 
 	String color = '#ff0000'
-	String message = 'pipeline initialized for '+release
+	String message = 'pipeline initialized for ' + release
 
 	if(success == true) {
 		color = '#00ff00'
@@ -13,7 +13,7 @@ void NotifySlack(String release = null, boolean success = false, String messageI
 		message = messageIn
 	}
 
-	slackSend channel: "#botlog", message: message,  color: color
+	slackSend channel: "#botlog", jobName  + ': ' + message: message,  color: color
 }
 
 def UserInput(currentBuild) {
