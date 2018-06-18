@@ -74,5 +74,11 @@ pipeline {
 				UserInputStep("${env.RELEASE}")
 			}
 		}
+
+		stage('deploy live') {
+			steps {
+				NotifySlack("${env.RELEASE}", true, 'deployment successful')
+			}
+		}
 	}
 }
