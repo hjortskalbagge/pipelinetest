@@ -1,35 +1,11 @@
 #!/usr/bin/env groovy
 
-library 'NotifySlack'
+library identifier: 'slacknotifyer@master', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'https://github.com/hjortskalbagge/pipelinetest.git',
+   credentialsId: ''])
 
-def UserInput(currentBuild) {
-	String message = 'staging confirmed'
-	try {
-		userInput = input(
-			id: 'staging',
-			message: 'staging ok?',
-			ok: 'Yes'
-		)
-	} catch(err) { // input false
-		def user = err.getCauses()[0].getUser()
-		userInput = false
-		userName = "${user}".toLowerCase().replaceAll(' ','.')
-		message = "Aborted by: @"+userName
-		currentBuild.result = 'FAILURE'
-	}
 
-	return message
-}
-
-void UserInputStep() {
-	String message = UserInput(currentBuild)
-	boolean confirmed = false
-	if(message.indexOf('confirmed') > -1) {
-		confirmed = true
-	}
-
-	NotifySlack(confirmed, message)
-}
 
 pipeline {
     agent none
