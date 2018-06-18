@@ -77,10 +77,9 @@ pipeline {
 
 		stage('deploy live') {
 			steps {
-				sh """
-					echo 'OK'
-				"""
+				sh "echo 'OK'"
 			}
+
 			post {
 				success {
 					NotifySlack("${env.RELEASE}", true, 'deployment successful')
