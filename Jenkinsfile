@@ -8,8 +8,9 @@ pipeline {
         filter: 'SUCCESSFUL', 
         name: 'BUILD', 
         projectName: 'Test Pipeline'
-        slackNotifier: new Slack(this)
     }
+
+    Slack slackNotifier: new main.notifiers.Slack(this)
 
 	stages {
 		stage('stage') {
@@ -27,7 +28,7 @@ pipeline {
 
 		stage('confirm staging stability') {
 			steps {
-				def input = new Input(this,currentBuild)
+				Input input = new  main.choices.Input(this,currentBuild)
 				input.createAndNotifyOnClick(slackNotifier)
 			}
 		}
@@ -42,13 +43,13 @@ pipeline {
 
 			post {
 				success {
-					slacknotifyer.send(true, 'deployment successful')
+					slackNotifier.send(true, 'deployment successful')
 				}
 				unstable {
-					slacknotifyer.send(false, 'deployment unstable')
+					slackNotifier.send(false, 'deployment unstable')
 				}
 				failure {
-					slacknotifyer.send(false, 'deployment failed')
+					slackNotifier.send(false, 'deployment failed')
 				}
 			}
 		}
