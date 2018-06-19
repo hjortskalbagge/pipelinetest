@@ -8,10 +8,9 @@ pipeline {
         filter: 'SUCCESSFUL', 
         name: 'BUILD', 
         projectName: 'Test Pipeline'
+        slackNotifier: new main.notifiers.Slack(this)
+		input: new main.choices.Input(this,currentBuild)
     }
-
-    def slackNotifier: new main.notifiers.Slack(this)
-    def input = new  main.choices.Input(this,currentBuild)
 
 	stages {
 		stage('stage') {
