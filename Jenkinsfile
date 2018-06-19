@@ -1,5 +1,8 @@
 #!/usr/bin/env groovy
 
+def slackNotifier = new main.notifiers.Slack(this)
+def input = new main.choices.Input(this,currentBuild)
+
 pipeline {
     agent none
 
@@ -11,10 +14,6 @@ pipeline {
     }
 
 	stages {
-
-		def slackNotifier = new main.notifiers.Slack(this)
-		def input = new main.choices.Input(this,currentBuild)
-
 		stage('stage') {
 			agent { node { label 'master' } }
 			
