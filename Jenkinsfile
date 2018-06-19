@@ -10,7 +10,8 @@ pipeline {
         projectName: 'Test Pipeline'
     }
 
-    Slack slackNotifier: new main.notifiers.Slack(this)
+    def slackNotifier: new main.notifiers.Slack(this)
+    def input = new  main.choices.Input(this,currentBuild)
 
 	stages {
 		stage('stage') {
@@ -28,7 +29,6 @@ pipeline {
 
 		stage('confirm staging stability') {
 			steps {
-				Input input = new  main.choices.Input(this,currentBuild)
 				input.createAndNotifyOnClick(slackNotifier)
 			}
 		}
