@@ -23,13 +23,18 @@ pipeline {
 			}
 
 			steps {
-			    slackNotifier.send(true)
+				script {
+					slackNotifier.send(true)
+				}
+
 			}
 		}
 
 		stage('confirm staging stability') {
 			steps {
-				input.createAndNotifyOnClick(slackNotifier)
+				script {
+					input.createAndNotifyOnClick(slackNotifier)
+				}
 			}
 		}
 
@@ -43,13 +48,19 @@ pipeline {
 
 			post {
 				success {
-					slackNotifier.send(true, 'deployment successful')
+					script {
+						slackNotifier.send(true, 'deployment successful')
+					}
 				}
 				unstable {
-					slackNotifier.send(false, 'deployment unstable')
+					script {
+						slackNotifier.send(false, 'deployment unstable')
+					}
 				}
 				failure {
-					slackNotifier.send(false, 'deployment failed')
+					script {
+						slackNotifier.send(false, 'deployment failed')
+					}
 				}
 			}
 		}
