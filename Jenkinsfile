@@ -1,12 +1,5 @@
 #!/usr/bin/env groovy
 
-library identifier: 'slacknotifyer@master', retriever: modernSCM(
-  [$class: 'GitSCMSource',
-   remote: 'https://github.com/hjortskalbagge/pipelinetest.git',
-   credentialsId: ''])
-
-
-
 pipeline {
     agent none
 
@@ -15,6 +8,7 @@ pipeline {
         filter: 'SUCCESSFUL', 
         name: 'BUILD', 
         projectName: 'Test Pipeline'
+        slackNotifier: new Slack(this)
     }
 
 	stages {
@@ -27,13 +21,14 @@ pipeline {
 			}
 
 			steps {
-			    slacknotifyer.NotifySlack(true)
+			    slackNotifier.send(true)
 			}
 		}
 
 		stage('confirm staging stability') {
 			steps {
-				slacknotifyer.UserInputStep()
+				def input = new Input(this,currentBuild)
+				input.createAndNotifyOnClick(slackNotifier)
 			}
 		}
 
@@ -47,13 +42,13 @@ pipeline {
 
 			post {
 				success {
-					slacknotifyer.NotifySlack(true, 'deployment successful')
+					slacknotifyer.send(true, 'deployment successful')
 				}
 				unstable {
-					slacknotifyer.NotifySlack(false, 'deployment unstable')
+					slacknotifyer.send(false, 'deployment unstable')
 				}
 				failure {
-					slacknotifyer.NotifySlack(false, 'deployment failed')
+					slacknotifyer.send(false, 'deployment failed')
 				}
 			}
 		}
