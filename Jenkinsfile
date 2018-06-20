@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 def slackNotifier = new main.notifiers.Slack(this)
-def input = new main.choices.Input(this,currentBuild)
+def inputElem = new main.choices.Input(this,currentBuild)
 
 pipeline {
     agent none
@@ -33,7 +33,7 @@ pipeline {
 		stage('confirm staging stability') {
 			steps {
 				script {
-					input.createAndNotifyOnClick(slackNotifier)
+					inputElem.createAndNotifyOnClick(slackNotifier)
 				}
 			}
 		}
